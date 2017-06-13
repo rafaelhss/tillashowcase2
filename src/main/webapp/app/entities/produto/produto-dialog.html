@@ -1,0 +1,60 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myProdutoLabel">Create or edit a Produto</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.produto.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.produto.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_nome">Nome</label>
+            <input type="text" class="form-control" name="nome" id="field_nome"
+                    ng-model="vm.produto.nome"
+                    />
+        </div>
+        <div class="form-group" ngf-drop ngf-change="vm.setFoto($file, vm.produto)" ngf-pattern="'image/*'">
+            <label class="control-label" for="field_foto">Foto</label>
+            <div>
+                <img data-ng-src="{{'data:' + vm.produto.fotoContentType + ';base64,' + vm.produto.foto}}" style="max-height: 100px;" ng-if="vm.produto.foto" alt="produto image"/>
+                <div ng-if="vm.produto.foto" class="help-block clearfix">
+                    <span class="pull-left">{{vm.produto.fotoContentType}}, {{vm.byteSize(vm.produto.foto)}}</span>
+                    <button type="button" ng-click="vm.produto.foto=null;vm.produto.fotoContentType=null;"
+                            class="btn btn-default btn-xs pull-right">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+                <button type="button" ngf-select class="btn btn-default btn-block"
+                        ngf-change="vm.setFoto($file, vm.produto)" accept="image/*">
+                    Add image
+                </button>
+            </div>
+            <input type="hidden" class="form-control" name="foto" id="field_foto"
+                    ng-model="vm.produto.foto"
+                    />
+            <input type="hidden" class="form-control" name="fotoContentType" id="field_fotoContentType"
+                    ng-model="vm.produto.fotoContentType" />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_preco">Preco</label>
+            <input type="number" class="form-control" name="preco" id="field_preco"
+                    ng-model="vm.produto.preco"
+                    />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || vm.isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>
